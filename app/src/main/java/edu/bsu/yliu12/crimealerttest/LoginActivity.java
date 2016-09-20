@@ -133,12 +133,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
                 attemptLogin();
-                SignInWithEmailPassword(mEmailView.getText().toString(), mPasswordView.getText().toString());
-
+                signInWithEmailPassword(mEmailView.getText().toString(), mPasswordView.getText().toString());
+                Log.d(TAG, "mEmailSignInButton.Listener ended");
             }
 
         });
 
+        final Button mGuestSignInBtn = (Button) findViewById(R.id.guest_signin_btn);
+        mGuestSignInBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //attemptLogin();
+                signInAnonymously();
+
+            }
+
+        });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -172,7 +182,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 });
     }
 
-    private void SignInWithEmailPassword(String email, String password) {
+    private void signInWithEmailPassword(String email, String password) {
         Log.d(TAG, "SignInWithEmailPassword started,email" + email);
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -192,8 +202,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         // ...
                     }
                 });
-    }
+        Log.d(TAG, "SignInWithEmailPassword ended,email" + email);
 
+    }
+    private void signInAnonymously() {
+        Log.d(TAG, "signInAnonymously started");
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInAnonymously:onComplete:++++" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInAnonymously", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        // ...
+                    }
+                });
+
+    }
 
 
     private void populateAutoComplete() {
@@ -289,7 +322,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            //mAuthTask.execute((Void) null);
         }
     }
     private boolean isEmailValid(String email) {
