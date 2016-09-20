@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "505619423290",
+    "firebase_url": "https://crimealerttest.firebaseio.com",
+    "project_id": "crimealerttest",
+    "storage_bucket": "crimealerttest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505619423290:android:5228b7a1f8f6b14d",
+        "android_client_info": {
+          "package_name": "edu.bsu.yliu12.crimealerttest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "505619423290-pgn1m9tv9vmfb7i0qvou702b5b7oviav.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiQh93YBzLK7U8QZFijonYgiiQMjwpVcw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
