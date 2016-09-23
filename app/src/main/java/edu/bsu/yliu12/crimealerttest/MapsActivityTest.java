@@ -52,14 +52,13 @@ public class MapsActivityTest extends FragmentActivity implements OnMapReadyCall
         mMap = googleMap;
 
         //call request permission alert
-        ActivityCompat.requestPermissions( this,new String[] {
-                Manifest.permission.ACCESS_FINE_LOCATION },
-                MY_PERMISSIONS_REQUEST_READ_CONTACTS);
 
         int tmp = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         Log.d(TAG, "C)"+tmp);
 
-        if (tmp == PackageManager.PERMISSION_GRANTED) {
+
+        if (permissionCheck(Manifest.permission.ACCESS_FINE_LOCATION ,
+                MY_PERMISSIONS_REQUEST_READ_CONTACTS)) {
             Log.d(TAG, "Location permission granted");
 
             mMap.setMyLocationEnabled(true);
@@ -69,12 +68,45 @@ public class MapsActivityTest extends FragmentActivity implements OnMapReadyCall
             // Show rationale and request permission.
             Log.d(TAG, "Location permission not granted");
         }
-
         // Add a marker in My Home
         LatLng yliuHome = new LatLng(37.522, 122.1);
-        mMap.addMarker(new MarkerOptions().position(yliuHome).title("Marker in yliuHome"));
+        mMap.addMarker(new MarkerOptions().position(yliuHome).title("Marker in yliu Home"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(yliuHome));
     }
+
+    /**
+     * Check permission/request premission
+     * @param permission to be checked
+     * @param reqCode of permision
+     * @return permission status
+     */
+    public boolean permissionCheck(String permission, int reqCode){
+        Log.d(TAG, "permission: "+permission);
+        Log.d(TAG, "reqCode: "+reqCode);
+
+        boolean flag = false;
+        int permissionCheck = ContextCompat.checkSelfPermission(this,
+                permission);
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }else {
+            return requestPermission(permission, reqCode);
+        }
+    }
+    /**
+     * request premission
+     * @param permission to be checked
+     * @param reqCode of permision
+     * @return permission status
+     */
+    private boolean requestPermission(String permission, int reqCode) {
+        ActivityCompat.requestPermissions( this,new String[] {
+                        permission },
+                reqCode);
+
+        return ContextCompat.checkSelfPermission(this,permission)==0;
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
       //TODO impliment permission result handling
